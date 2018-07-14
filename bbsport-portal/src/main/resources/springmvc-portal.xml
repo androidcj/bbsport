@@ -1,0 +1,68 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/task
+   		http://www.springframework.org/schema/task/spring-task-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo        
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+		
+		<!-- 扫描 -->
+		<context:component-scan base-package="com.dawei" />
+		<mvc:annotation-driven conversion-service="conversionServiceFactoryBean"/>
+		
+		<!-- 试图解析器 -->
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<property name="prefix" value="/WEB-INF/portal/"></property>
+			<property name="suffix" value=".jsp"></property>
+		</bean>
+		
+		<!-- 对静态资源放行 -->
+	<mvc:resources location="/res/" mapping="/res/**"/>
+	<mvc:resources location="/images/" mapping="/images/**"/>
+	<!-- 
+			<mvc:resources location="/js/" mapping="/js/**"/>
+		<mvc:resources location="/images/" mapping="/mages/**"/>
+		<mvc:resources location="/css/" mapping="/css/**"/>
+	 -->
+
+		
+		<!-- 定义自定义转换器 -->
+		<bean name="conversionServiceFactoryBean" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+			<property name="converters">
+				<set>
+					<bean class="com.dawei.common.conversion.TrimConterter"></bean>
+				</set>
+			</property>
+		</bean>
+		
+		
+		<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+		
+		<mvc:interceptors>
+			<mvc:interceptor>
+				<mvc:mapping path="/buyer/**"/>
+				<bean class="com.dawei.core.interceptor.CustomerInterceptor"></bean>
+			</mvc:interceptor>
+		
+		</mvc:interceptors>
+		
+		
+		<import resource="dubbo-portal.xml"/>
+		
+		
+</beans>
+		

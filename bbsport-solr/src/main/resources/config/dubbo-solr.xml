@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/task
+   		http://www.springframework.org/schema/task/spring-task-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd 
+		">
+		
+		<!-- 服务消费方  http://code.alibabatech.com/schema/dubbo/dubbo.xsd     -->
+	<!--1. 给服务提供方起名 -->
+	<dubbo:application name="bbsport-solr"></dubbo:application>
+	<!-- 2. 到注册中心注册地址    连接zookeeper-->
+	<!--  -->
+	<dubbo:registry address="192.168.48.129:2181" protocol="zookeeper"></dubbo:registry>
+	<!--3.自定义端口号  默认端口20880  -->
+	<dubbo:protocol host="127.0.0.1" port="20881"></dubbo:protocol>
+	<dubbo:service interface="com.dawei.vore.service.product.SolrService" ref = "solrService"></dubbo:service>
+	 <!-- 
+	 	<dubbo:service interface="com.dawei.vore.service.product.BrandService" ref = "brandService"></dubbo:service>
+	  -->
+
+</beans>
+		
